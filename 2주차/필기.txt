@@ -1,0 +1,31 @@
+맥컬록 - 피츠(MCP) 뉴런
+ : 뇌의 화학적, 전기적 신호처리 구조를 개념화. 
+  특정 임계값을 넘으면 신호 전달함.
+
+Perceptron은 이 뉴런의 발화구조를 이용하여 최적의 가중치를 구하는 알고리즘임
+
+w = w + 델타w
+델타w = 에타(y - y^)x
+
+퍼셉트론은 두 클래스가 선형적으로 구분되고 학습률이 충분히 작을 때 수렴보장 
+ -> 선형결정경계로 나눌수 없다면 Max epoch를 지정해줘야함. 아니면 영원히돌아감
+
+
+
+적응형 선형뉴런 (ADAptive Linear Neuron : ADALINE)
+Perceptron과 다른점 : 진짜 클래스 레이블과 선형 활성화함수의 실수 출력값을 비교함.
+Percentron은 activation function이 없고 y^과 비교함.
+
+EX) 
+
+input - weight - sumation - activation function - error - step function
+
+activation function : 미분가능, 볼록함수임으로 전역최소값 찾기 가능 - > gradient descent
+learning rate를 적절히 선택하는 것이 중요함.
++ Scaling을 하면 학습률 수렴이 더 빨라짐
+
+Batch gradient descent : 전체 훈련세트에서 계산된 그래디언트의 반대방향으로 이동함
+stochastic gradient descent : 각 훈련 샘플에 대해 조금씩 가중치를 업데이트함. -> 온라인 학습에 사용 가능함.
+
+
+
