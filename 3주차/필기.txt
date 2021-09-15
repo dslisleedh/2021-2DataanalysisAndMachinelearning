@@ -1,0 +1,78 @@
+odds ratio (오즈비)
+특정 이벤트가 발생할 확률(발생하지 않을 확률 대비 발생할 확률)
+
+p / 1-p
+
+오즈비에 자연로그를 취한 값을 로짓함수라고 부름
+
+logit(P) = log( p / 1-p )
+p는 확률이기에 0 ~ 1의 비율을 가지게됨
+로짓함수는 -Inf ~ Inf의 값을 가짐.
+이를반대로 로짓함수에 W^t X를 넣을 수 있다면 확률로 변환이 가능함.
+
+
+
+->
+확률을 선형회귀로 구하기위해선 결과값이 0~1이어야함.
+하지만 선형함수의 결과값을 0~1로 제한할수는없음. 그래서 반대로 y를 -Inf에서 Inf로 치환함
+
+WX + B = Y (일반적인선형회귀)
+WX + B = logistic( Y ) ( y에 로지스틱을 씌움 )
+WX + B = In( 1 / 1 - P ) ( 우리는 여기에서 P, 즉 확률을 얻고싶음 )
+e ^ (WX + B) = 1 / 1 - P
+P = e^(WX + B)(1 - P)
+P = e^(WX + B) - e^(WX + B)(P)
+P + e^(WX + B)P = e^(WX + B)
+P(1 + e^(WX + B)) = e^(WX + B)
+P = e^(WX + B) / (1 + e^(WX + B))
+P = 1 / 1 + e^-(WX + B) 
+
+
+로지스틱회귀 모델에서는 비용함수를 확률을 최대화하려는 log-likelihood 사용함.
+파이n Sigmoid(Z^i)^yi * (1 - Sigmoid(Z^i)^1 - y^i)
+
+Underflow 예방, 곱을 합으로 바꾸기위해 log를 씌워줌
+J(w) = - Sigma n [ (y^i * log(sigmoid(z^i))) + (1 - y^i)log(1 - sigmoid(z^i)) ]  -> Cross entropy를 구하는 식과 동일함
+J(sigmoid(z), y;w) = if y = 1 : -log(sigmoid(z))
+                           if y = 0 : -log(1-sigmoid(z))
+
+
+
+MSE 분해하기
+
+E(MSE) = E[(Y - Y_hat)^2|X]
+	=sigma^2 + (E[Y_hat - Y])^2 + E[Y_hat - E[Y_hat]]^2
+	=Irreduciable error + Bias^2(Y_hat) + Variance(Y_hat)
+-> Error = 피할수없는 에러 + 편차 + 분산으로 구성됨.
+
+규제  : 공선성을 다루거나 데이터에서 잡음을 제거하여 과대적합을 방지할 수 있는 유용한 방법
+L2규제 : lambda/2 ||w||2 = lambda/2 sigma m w^2
+이걸쓰면 Ridge regression
+
+L2규제를 적용한 로지스틱회귀 비용함수
+J(w) = -sigma n [(y log(sigmoid(z)) + (1 - y)log(1 - sigmoid(z))] + lambda/2 ||w||2
+
+L1규제는 lambda/2|w| , Lasso regression
+
+
+
+SVM : Supoprt Vector와 결정경계가 되는 초평면 사이의 마진을 최대화 하는 것이 목표임.
+ 마진을 최대화 하면 일반화의 오차를 낮추는것임.
+wx(pos) + b = 1
+wx(neg) + b = -1
+합치면 w(x(pos) = x(neg)) = 2
+마진 벡터의 길이를 ||w|| = root( sigma m w^2(j) )로 정리하면
+w(x(pos) = x(neg)) / ||w|| = 2 / ||w||
+왼쪽이 최대화하고자하는 마진이 되고 이는 곧 x(pos)와 x(neg)사이와 같음 -> 마진의 최대화 = 거리의 최대화
+
+소프트마진 분류 : 오차를 무시하더라도 마진을 더 넓힘.
+wx + b => 1 - xi
+wx + b =< +1 + xi
+xi에 비례해서 마진을 더 넓혀줌.
+목적함수 : 1/2||w||2 - C(sigma i xi^i)
+
+커널 SVM : 선형ㅇ으로 분류되지 않는 것을 고차원으로 올려서 선형분류가 가능하게 만들음
+
+커널(x1, x2) = (z1, z2, z3) = (x1, x2, x1^2 + x2^2)
+하지만 이렇게 새로운 특성을 만드는 계산비용이 비쌈
+-> 두 포인트사이의 점곱을 효율적으로 계산하기 위해 커널함수를 사용
