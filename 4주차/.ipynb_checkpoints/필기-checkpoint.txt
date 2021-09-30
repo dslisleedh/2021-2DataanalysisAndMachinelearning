@@ -1,0 +1,59 @@
+sklearn kernel documents
+
+Imformation gain: IG
+IG(D(p), f) = I(D(p_) - sigma m N(j) / N(p) * I(D(j))
+D = 데이터셋
+N = 샘플 갯수
+-> 부모노드의 불순도 - 자식노드의 불순도 합
+=> 자식노드의 불순도 합이 부모노드가 적으면 IG가 양수
+
+ 1. 지니불순도
+	Ig(t) = sigma c p(i|t)(1-p(i|t)) = 1 - sigma c p(i|t)^2
+	Ex) .5씩 섞여있으면 결과값  = .5
+
+ 2. Entropy
+	Ih(t) = -sigma c p(i|t)log2p(i|t)
+	Ex) .5씩 섞여있으면 1이 됨.
+
+ 3. Classification Error
+	Ie(t) = 1 - max{p(i|t)}
+	Ex).5씩 섞여있으면 .5가됨. Max를 사용하기에 확률값에 둔감함. 얘만 뾰족한 함수임.
+
+불순도 선택보다는 가지치기(pruning)를 통해 튜닝을 진행함. 거의 .5에 근접하는 경계값에서는 차이가 있을지 몰라도 전체적으로 보면 큰 차이가 없음.
+
+
+
+Random Forest
+1.N개의 랜덤한 bootstrap 샘플 추출(중복허용)
+2. bootstrap 샘플에 대해 학습
+ a. 중복을 허용하지않고 랜덤하게 d개의 특성을 선택
+ b. 정보이득과 같은 목적함수를 기준으로 최선의 분할을 만드는 특성을 사용해 노드 분할
+ c. a,b를 k번 반복
+ d. 각 트리의 예측을 모아 voting. 결과를 바탕으로 클래스 레이블 할당.
+
+-> Overfitting되지않고 일반화된 결정을 만들 수 있음. ( = Ensemble learning)
+
+DT만큼 해석하기 쉽진 않지만 Hyperparameter tuning이 간단함.
+pruning 필요 X
+tree 갯수 하나만 중요함.
+샘플크기 n, 선택할 특성 갯수 d 도 튜닝가능.
+n을통해 편향-분산 tradeoff 조절이 가능함.
+
+k-nn
+k개의 이웃을 보고 클래스를 판단함.
+lazy learner : 함수를 훈련하는 등의 과정 X. 실제로 분류할 데이터가 들어와야 작동시작함. 단순히 데이터셋을 메모리에 품고있음.
+1. 숫자 k와 거리측정기준선택
+2. 분류하려는 샘플에서 k개의 최근접이웃을 찾음.
+3. 다수결 투표를 통해 클래스 레이블 할당.
+
+거리측정기준
+	1. 맨해탄거리 : L1
+	2. 유클리디안거리 : L2
+	3. minkowski distance : 위를 일반화한것임. power 1 = 맨해탄거리, power2 = 유클리디안거리
+	... 등등 다양한것이 있음.
+
+거리 측정 전에 변수 표준화가 중요함 -> 단순히 range가 넓은것 때문에 특정 column이 더 큰 영향을 줄 수 있음.
++ 차원의 저주 : Dimension이 올라갈수록 특징공간이 Sparse해짐.
+	Ex) 한차원에 5가지 Value가 들어갈때 모든 Feature space을 채우기위해 필요한 수 = 5^d -> Exponential하게 증가함. 
+	반대로 같은 데이터수가 n차원 안에 uniform하게 배치되어있을때 각 데이터간의 거리도 exponential하게 증가함.  -> Computing resource, overfitting 등
+
