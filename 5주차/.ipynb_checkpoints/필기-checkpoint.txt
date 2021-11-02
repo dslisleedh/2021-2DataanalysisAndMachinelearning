@@ -1,0 +1,32 @@
+1. NA
+A. 제거 : dropna()
+B. 대체 : fillna, SimpleImputer
+
+2.범주형
+
+A. 순서 O : map
+B. 순서 X : enumerate -> map 사용
+뒤집을땐 {v:k for k, v in class_mapping.items()} -> 다시 map
+or  fit_transform, inverse_transform
+
+but 순서가없으면 크기가 의미없는데 알고리즘에서 크기로 판단할수도 있음 -> OneHotEncoder + ColumnTransformer / get_dummies()
+
+3.데이터셋나누기
+train_test_split : test_size, random_state, stratify
+
+4. 특성 스케일 맞추기
+A. 정규화 : [0,1]
+MinMaxScaler
+B. 표준화 : mean 0, sd 1 -> 이상치에 덜민감함
+StandardScaler
+
+5. 유용한 특성 선택
+A. 더많은 데이터
+B. 규제를 통해 복잡도 제한 Ex) L1, L2  람다가 커지면 가중치가 0에 가까워짐. L2는 원이지만 L1은 직선이기에 축에서 등고선을 만날 확률이 높음 -> Feature를 0으로만들가능성이올라감
+C. 파라미터 개수가 적은 간단한 모델 선택
+D. 데이터 차원을 줄인다
+	Feature Extraction -> 여러가지 변수를 하나로
+	Feature Selection -> 변수 여러가지 중 선택
+
+	순차적 특성 선택 : 대표적인것이 순차 후진선택
+	Feature Importance : Tree기반모델
