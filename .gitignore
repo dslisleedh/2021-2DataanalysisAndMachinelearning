@@ -1,6 +1,15 @@
 /Project/arxiv-metadata-oai-snapshot.json
 /Project/preprocessed.pickle
 /Project/forvis_01_20.pickle
+/Project/forvis_07_21.pickle
+/Project/models/*
+/Project/outputs/*
+/Project/runs/*
+/Project/plot/*
+/Project/cache_dir/*
+/Project/logs/*
+/Project/bert_base_uncased/*
+/Project/model.h5
 /Project/data.pickle
 /Project/GoogleNews-vectors-negative300.bin.gz
 /Project/glove.6B.300d.txt
